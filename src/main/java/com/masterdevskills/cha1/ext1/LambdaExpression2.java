@@ -36,12 +36,19 @@ public class LambdaExpression2 {
 	 * the time it takes to execute the method
 	 */
 	public void executionTime() {
-		//TODO add your code here;
+		Executable executable = () -> {
+		};
+		executable.execute();
 	}
 
 	/* TODO: use the above of method here
 	 */
 	public void run() {
-		//executionTime();
+		executionTime();
 	}
+}
+
+@FunctionalInterface
+interface Executable {
+	void execute();
 }

@@ -23,6 +23,7 @@
 package com.masterdevskills.cha1.ext3;
 
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
@@ -34,53 +35,60 @@ import java.util.function.UnaryOperator;
 //TODO all of the exercise must be done by using lambda expression
 public class Exercises {
 
-	/**
-	 * TODO: given a list of integer, return a list of integer where each integer is multiplied by 2
-	 *
-	 * @param ints list of integer
-	 * @see List#replaceAll(UnaryOperator)
-	 */
-	public static List<Integer> doubling(List<Integer> ints) {
-		throw new RuntimeException("NotYetImplemented");
-	}
+  /**
+   * TODO: given a list of integer, return a list of integer where each integer is multiplied by 2
+   *
+   * @param ints list of integer
+   * @see List#replaceAll(UnaryOperator)
+   */
+  public static List<Integer> doubling(List<Integer> ints) {
+    ints.replaceAll(num -> num * 2);
+    return ints;
+  }
 
-	/**
-	 * TODO: given a list of string and a suffix, apply the suffix to all of them
-	 *
-	 * @param items  List of string item
-	 * @param suffix suffix that needs to apply on each item
-	 * @see List#replaceAll(UnaryOperator)
-	 */
-	public static List<String> addSuffix(List<String> items, String suffix) {
-		throw new RuntimeException("NotYetImplemented");
-	}
+  /**
+   * TODO: given a list of string and a suffix, apply the suffix to all of them
+   *
+   * @param items  List of string item
+   * @param suffix suffix that needs to apply on each item
+   * @see List#replaceAll(UnaryOperator)
+   */
+  public static List<String> addSuffix(List<String> items, String suffix) {
+    items.replaceAll(item -> item.concat(suffix));
+    return items;
+  }
 
-	/***
-	 * TODO:  sort the given list of person using their first Name in natural order
-	 *
-	 * @param people list of person
-	 * */
-	public static List<Person> sortItemByFirstNameOrderAscending(List<Person> people) {
-		throw new RuntimeException("NotYetImplemented");
-	}
+  /***
+   * TODO:  sort the given list of person using their first Name in natural order
+   *
+   * @param people list of person
+   * */
+  public static List<Person> sortItemByFirstNameOrderAscending(List<Person> people) {
+    people.sort(Comparator.comparing(Person::getFirstName));
+    return people;
+  }
 
-	/**
-	 * TODO: sort the given list of person using last name in reserved order
-	 *
-	 * @param people list of person
-	 */
-	public static List<Person> sortByLastNameOrderDescending(List<Person> people) {
-		throw new RuntimeException("NotYetImplemented");
-	}
+  /**
+   * TODO: sort the given list of person using last name in reserved order
+   *
+   * @param people list of person
+   */
+  public static List<Person> sortByLastNameOrderDescending(List<Person> people) {
+    people.sort(Comparator.comparing(Person::getLastName).reversed());
+    return people;
+  }
 
-	/**
-	 * TODO: sort the given list of the person using the first name and then last name and then age
-	 * which means, if there is the first name of two-person is same, then they would be sorted by the last name
-	 * if the first name and last name are the same, then they would be sorted by age in the natural order
-	 *
-	 * @param people list of person
-	 */
-	public static List<Person> sortByFirstNameAndThenLastNameAndThenAge(List<Person> people) {
-		throw new RuntimeException("NotYetImplemented");
-	}
+  /**
+   * TODO: sort the given list of the person using the first name and then last name and then age
+   * which means, if there is the first name of two-person is same, then they would be sorted by the
+   * last name if the first name and last name are the same, then they would be sorted by age in the
+   * natural order
+   *
+   * @param people list of person
+   */
+  public static List<Person> sortByFirstNameAndThenLastNameAndThenAge(List<Person> people) {
+    people.sort(Comparator.comparing(Person::getFirstName).thenComparing(Person::getLastName)
+        .thenComparing(Person::getAge));
+    return people;
+  }
 }
