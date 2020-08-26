@@ -22,8 +22,9 @@
 
 package com.masterdevskills.cha2.ext2.service;
 
-import com.masterdevskills.cha2.ext2.model.Movie;
+import static java.util.stream.Collectors.*;
 
+import com.masterdevskills.cha2.ext2.model.Movie;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -40,196 +42,221 @@ import java.util.stream.Stream;
 public class RealMovieService {
 
 
-	/**
-	 * TODO: count the Movie object stored in InMemoryMovieService
-	 *
-	 * @return number of movies stored in the InMemoryMovieService
-	 * @see Stream#count()
-	 */
-	public long countMovies() {
-		var allMovies = InMemoryMovieService.getInstance().findAllMovies();
-		return allMovies.stream()
-						.count();
-	}
+  /**
+   * TODO: count the Movie object stored in InMemoryMovieService
+   *
+   * @return number of movies stored in the InMemoryMovieService
+   * @see Stream#count()
+   */
+  public long countMovies() {
+    var allMovies = InMemoryMovieService.getInstance().findAllMovies();
+    return allMovies.stream()
+        .count();
+  }
 
-	/**
-	 * TODO: find all the movies released in a particular year
-	 *
-	 * @param year given year
-	 * @return list of Movies in a particular year
-	 * @see java.util.stream.Stream#filter(Predicate)
-	 * @see java.util.stream.Stream#collect(Collector)
-	 */
-	public List<Movie> findAllMoviesInYear(int year) {
+  /**
+   * TODO: find all the movies released in a particular year
+   *
+   * @param year given year
+   * @return list of Movies in a particular year
+   * @see java.util.stream.Stream#filter(Predicate)
+   * @see java.util.stream.Stream#collect(Collector)
+   */
+  public List<Movie> findAllMoviesInYear(int year) {
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getYear().equals(String.valueOf(year))).collect(toList());
+  }
 
-	/**
-	 * TODO: given a rating, return the list of the movies of that rating
-	 *
-	 * @param rated given rating
-	 * @return list of movies of that rating
-	 * @see java.util.stream.Stream#filter(Predicate)
-	 * @see java.util.stream.Stream#collect(Collector)
-	 */
+  /**
+   * TODO: given a rating, return the list of the movies of that rating
+   *
+   * @param rated given rating
+   * @return list of movies of that rating
+   * @see java.util.stream.Stream#filter(Predicate)
+   * @see java.util.stream.Stream#collect(Collector)
+   */
 
-	public List<Movie> findAllMovieRated(String rated) {
+  public List<Movie> findAllMovieRated(String rated) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getRated().equals(rated)).collect(toList());
+  }
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: given a rating, return the count of the movies of that rating
+   *
+   * @param rated given rating
+   * @return count of movies of that rating
+   * @see java.util.stream.Stream#filter(Predicate)
+   * @see java.util.stream.Stream#collect(Collector)
+   */
 
-	/**
-	 * TODO: given a rating, return the count of the movies of that rating
-	 *
-	 * @param rated given rating
-	 * @return count of movies of that rating
-	 * @see java.util.stream.Stream#filter(Predicate)
-	 * @see java.util.stream.Stream#collect(Collector)
-	 */
+  public long countMoviesWithRated(String rated) {
 
-	public long countMoviesWithRated(String rated) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getRated().equals(rated)).count();
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  }
 
-	/**
-	 * TODO: given a rating, return list of movies whose ratings are equal or greater than given rating
-	 *
-	 * @param rating given rating
-	 * @return list of movies whose ratings are equal or greater than given rating
-	 * @see java.util.stream.Stream#filter(Predicate)
-	 * @see java.util.stream.Stream#collect(Collector)
-	 */
-	public List<Movie> findMoviesWithImdbRatingEqualAndGreaterThan(double rating) {
+  /**
+   * TODO: given a rating, return list of movies whose ratings are equal or greater than given
+   * rating
+   *
+   * @param rating given rating
+   * @return list of movies whose ratings are equal or greater than given rating
+   * @see java.util.stream.Stream#filter(Predicate)
+   * @see java.util.stream.Stream#collect(Collector)
+   */
+  public List<Movie> findMoviesWithImdbRatingEqualAndGreaterThan(double rating) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getImdbRating() >= rating)
+        .collect(toList());
+  }
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: return list of movies that are directed by given director name
+   *
+   * @param director name of director
+   * @return list of movies that are directed by given director name
+   * @see java.util.stream.Stream#filter(Predicate)
+   * @see java.util.stream.Stream#collect(Collector)
+   */
+  public List<Movie> findMoviesOfDirector(String director) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getDirector().equals(director))
+        .collect(toList());
+  }
 
-	/**
-	 * TODO: return list of movies that are directed by given director name
-	 *
-	 * @param director name of director
-	 * @return list of movies that are directed by given director name
-	 * @see java.util.stream.Stream#filter(Predicate)
-	 * @see java.util.stream.Stream#collect(Collector)
-	 */
-	public List<Movie> findMoviesOfDirector(String director) {
+  /**
+   * TODO: return list of Movie Title of those movies whose rating is equal to given rating
+   *
+   * @param rated given rating
+   * @return list of Movie Title of those movies whose rating is equal to given rating
+   */
+  public List<String> listMovieTitleRated(String rated) {
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getRated().equals(rated)).map(Movie::getTitle)
+        .collect(toList());
+  }
 
-	/**
-	 * TODO: return list of Movie Title of those movies whose rating is equal to given rating
-	 *
-	 * @param rated given rating
-	 * @return list of Movie Title of those movies whose rating is equal to given rating
-	 */
-	public List<String> listMovieTitleRated(String rated) {
+  /**
+   * TODO: return list of distinct movie title of that movie, whose rating is equal to given rating
+   *
+   * @param rated given rating
+   * @return list of distinct movie title of that movie, whose rating is equal to given rating
+   * @see java.util.stream.Stream#filter(Predicate)
+   * @see java.util.stream.Stream#collect(Collector)
+   * @see Stream#distinct()
+   */
+  public List<String> listUniqueMovieTitleRated(String rated) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .filter(movie -> movie.getRated().equals(rated)).map(Movie::getTitle)
+        .distinct()
+        .collect(toList());
+  }
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: return movie title of any movie whose rating is equal or greater than given rating
+   *
+   * @param rating given rating
+   * @return movie title of any movie whose rating is equal or greater than given rating
+   * @see Stream#findAny()
+   */
+  public Optional<String> findAnyMovieTitleWithImdbRatingEqualOrGreater(double rating) {
 
-	/**
-	 * TODO: return list of distinct movie title of that movie, whose rating is equal to given rating
-	 *
-	 * @param rated given rating
-	 * @return list of distinct movie title of that movie, whose rating is equal to given rating
-	 * @see java.util.stream.Stream#filter(Predicate)
-	 * @see java.util.stream.Stream#collect(Collector)
-	 * @see Stream#distinct()
-	 */
-	public List<String> listUniqueMovieTitleRated(String rated) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .sorted(Comparator.comparing(Movie::getImdbRating))
+        .filter(movie -> movie.getImdbRating() >= rating).findAny().map(Movie::getTitle);
+  }
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: return movie title of the first movie whose rating is equal or greater than given rating
+   *
+   * @param rating given rating
+   * @return name of the first movie with given rating, empty if not
+   * @see Stream#findFirst()
+   * @see Stream#map(Function)
+   */
+  public Optional<String> findFirstMovieTitleWithImdbRatingEqualOrGreater(double rating) {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .sorted(Comparator.comparing(Movie::getImdbRating))
+        .filter(movie -> movie.getImdbRating() >= rating)
+        .findFirst().map(Movie::getTitle);
+  }
 
-	/**
-	 * TODO: return movie title of any movie whose rating is equal or greater than given rating
-	 *
-	 * @param rating given rating
-	 * @return movie title of any movie whose rating is equal or greater than given rating
-	 * @see Stream#findAny()
-	 */
-	public Optional<String> findAnyMovieTitleWithImdbRatingEqualOrGreater(double rating) {
+  /**
+   * TODO: sort all the movies by their title and return the sorted list
+   *
+   * @return the sorted list
+   * @see Stream#sorted(Comparator)
+   */
+  public List<Movie> sortMovieByTitle() {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .sorted(Comparator.comparing(Movie::getTitle)).collect(
+            toList());
+  }
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: sort all the movies by their imdb rating, then by their title(if rating are equal) and
+   * return the sorted list
+   *
+   * @return the sorted list
+   * @see Stream#sorted(Comparator)
+   * @see Comparator#thenComparing(Function)
+   */
+  public List<Movie> sortByImdbRatingAndThenTitle() {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .sorted(Comparator.comparing(Movie::getImdbRating).thenComparing(Movie::getTitle)).collect(
+            toList());
+  }
 
-	/**
-	 * TODO: return movie title of the first movie whose rating is equal or greater than given rating
-	 *
-	 * @param rating given rating
-	 * @return name of the first movie with given rating, empty if not
-	 * @see Stream#findFirst()
-	 * @see Stream#map(Function)
-	 */
-	public Optional<String> findFirstMovieTitleWithImdbRatingEqualOrGreater(double rating) {
+  /**
+   * TODO: find top rated movie from all the movies and return the Movie
+   *
+   * @return movie with maximum rating
+   * @see Stream#max(Comparator)
+   */
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  public Optional<Movie> findTopRatedMovie() {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .max(Comparator.comparing(Movie::getImdbRating));
+  }
 
-	/**
-	 * TODO: sort all the movies by their title and return the sorted list
-	 *
-	 * @return the sorted list
-	 * @see Stream#sorted(Comparator)
-	 */
-	public List<Movie> sortMovieByTitle() {
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: find min rated movie from all the movies and return the Movie
+   *
+   * @return movie with minimum rating
+   */
 
-	/**
-	 * TODO: sort all the movies by their imdb rating, then by their title(if rating are equal) and return the sorted list
-	 *
-	 * @return the sorted list
-	 * @see Stream#sorted(Comparator)
-	 * @see Comparator#thenComparing(Function)
-	 */
-	public List<Movie> sortByImdbRatingAndThenTitle() {
+  public Optional<Movie> findMinRatedMovie() {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .min(Comparator.comparing(Movie::getImdbRating));
+  }
 
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO: find number of Distinct Movies of each director
+   *
+   * @return list of Distinct movies
+   */
 
-	/**
-	 * TODO: find top rated movie from all the movies and return the Movie
-	 *
-	 * @return movie with maximum rating
-	 * @see Stream#max(Comparator)
-	 */
+  public Map<String, Long> findNumberOfDistinctMoviesOfEachDirector() {
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .distinct()
+        .collect(groupingBy(Movie::getDirector, counting()));
+  }
 
-	public Optional<Movie> findTopRatedMovie() {
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+  /**
+   * TODO:  find number movies title by years comma separated
+   *
+   * @return map containing year and movie tiles comma separated
+   */
+  public Map<String, String> getMoviesByYear() {
 
-	/**
-	 * TODO: find min rated movie from all the movies and return the Movie
-	 *
-	 * @return movie with minimum rating
-	 */
-
-	public Optional<Movie> findMinRatedMovie() {
-		throw new RuntimeException("TODO://ImplementIt");
-	}
-
-	/**
-	 * TODO: find number of Distinct Movies of each director
-	 *
-	 * @return list of Distinct movies
-	 */
-
-	public Map<String, Long> findNumberOfDistinctMoviesOfEachDirector() {
-		throw new RuntimeException("TODO://ImplementIt");
-	}
-
-	/**
-	 * TODO:  find number movies title by years comma separated
-	 *
-	 * @return map containing year and movie tiles comma separated
-	 */
-	public Map<String, String> getMoviesByYear() {
-		throw new RuntimeException("TODO://ImplementIt");
-	}
+    return InMemoryMovieService.getInstance().findAllMovies().stream()
+        .collect(groupingBy(Movie::getYear,
+            mapping(Movie::getTitle, joining(", "))));
+  }
 }
 
 

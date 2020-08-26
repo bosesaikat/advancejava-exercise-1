@@ -25,6 +25,7 @@
 package com.masterdevskills.cha1.ext1;
 
 
+import java.nio.file.DirectoryStream.Filter;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -37,10 +38,8 @@ public class LambdaExpression1 {
 	 * @see Predicate<String>
 	 */
 	public static boolean checkMoreThan5Chars(String value) {
-
-		Predicate<String> predicate = (text) -> text.length() > 5;
-
-		return predicate.test(value);
+		Predicate<String> checkCharacterCount = (String str) -> str!=null && str.length() > 5;
+		return checkCharacterCount.test(value);
 	}
 
 	/* TODO 2: Write a lambda expression using Predicate<String> to check if string is empty or not
@@ -48,20 +47,18 @@ public class LambdaExpression1 {
 	 * @see Predicate<String>
 	 */
 	public static boolean isStringEmpty(String value) {
-		Predicate<String> isEmpty =  String::isBlank;
-
-		return isEmpty.test(value);
+		Predicate<String> emptyPredicate = (String str) -> str.isBlank();
+		return emptyPredicate.test(value);
 	}
 
 	/**
 	 * TODO 3:  Write lambda expression using Function<String, String> to converter a text to uppercase
 	 *
-	 * @param value given value
+	 * @param text given value
 	 * @see Predicate<String>
 	 */
-	public static String convertToUpperCase(String value) {
-		Function<String, String> converter = String::toUpperCase;
-
-		return converter.apply(value);
+	public static String convertToUpperCase(String text) {
+		Function<String, String> stringUpperCaseFunc = (String input) -> input.toUpperCase();
+		return stringUpperCaseFunc.apply(text);
 	}
 }

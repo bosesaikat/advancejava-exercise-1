@@ -5,64 +5,72 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class StandardDeck implements Deck {
-    private final List<Card> entireDeck;
 
-    public StandardDeck() {
-        entireDeck = new ArrayList<>();
+  private final List<Card> entireDeck;
+  private Deck deck;
+
+  private StandardDeck() {
+    entireDeck = new ArrayList<>();
+  }
+
+  public void sort() {
+    Collections.sort(entireDeck);
+  }
+
+  @Override
+  public void sort(final Comparator<Card> c) {
+    getCards().sort(c);
+  }
+
+  @Override
+  public String deckToString() {
+    return defaultToString();
+  }
+
+  @Override
+  public Map<Integer, Deck> deal(final int players, final int numberOfCards)
+      throws IllegalArgumentException {
+    if (validDeal(players, numberOfCards)) {
+      throw new IllegalArgumentException(
+          "Illegal Arguments. players = +" + players + " , numberOfCards = +" + numberOfCards);
     }
+    return prepareDeal(players,numberOfCards);
+  }
 
-    public void sort() {
-        Collections.sort(entireDeck);
-    }
+  @Override
+  public List<Card> getCards() {
+    return entireDeck;
+  }
 
-    @Override
-    public void sort(final Comparator<Card> c) {
+  @Override
+  public Deck deckFactory() {
+    return new StandardDeck();
+  }
 
-    }
+  @Override
+  public int size() {
+    return getCards().size();
+  }
 
-    @Override
-    public String deckToString() {
-        return null;
-    }
+  @Override
+  public void addCard(final Card card) {
+    getCards().add(card);
+  }
 
-    @Override
-    public Map<Integer, Deck> deal(final int players, final int numberOfCards) throws IllegalArgumentException {
-        return null;
-    }
+  @Override
+  public void addCards(final List<Card> cards) {
+    getCards().addAll(cards);
+  }
 
-    @Override
-    public List<Card> getCards() {
-        return null;
-    }
+  @Override
+  public void addDeck(final Deck deck) {
+    this.deck = deck;
+  }
 
-    @Override
-    public Deck deckFactory() {
-        return null;
-    }
-
-    @Override
-    public int size() {
-        return 0;
-    }
-
-    @Override
-    public void addCard(final Card card) {
-
-    }
-
-    @Override
-    public void addCards(final List<Card> cards) {
-
-    }
-
-    @Override
-    public void addDeck(final Deck deck) {
-
-    }
-
-    public void shuffle() {
-        Collections.shuffle(entireDeck);
-    }
+  public void shuffle() {
+    Collections.shuffle(entireDeck);
+  }
 }

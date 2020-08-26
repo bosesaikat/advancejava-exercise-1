@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -44,7 +45,7 @@ public class NumericStreams {
 	 * @see Stream#collect(Collector)
 	 */
 	public static List<Integer> generate(int series) {
-
-		throw new RuntimeException("TODO://ImplementIt");
+		return Stream.iterate(List.of(1,1),seed-> List.of(seed.get(1),seed.get(0)+seed.get(1)))
+				.limit(series).map(seed -> seed.get(0)).collect(Collectors.toList());
 	}
 }

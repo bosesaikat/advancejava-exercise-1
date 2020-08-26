@@ -50,16 +50,13 @@ public class FileProcessor {
      */
     public List<String> readFileFrom(String fileName) {
 
-       // String s = Files.readString(Path.of(fileName));
         try {
             List<String> lines = Files.readAllLines(Path.of(fileName));
-            lines.removeIf((text ) -> text.trim().isEmpty());
-
+            lines.removeIf(String::isBlank);
             return lines;
         } catch (IOException e) {
-            e.printStackTrace();
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
     }
 
     /**
@@ -72,12 +69,11 @@ public class FileProcessor {
      * @see String#join(CharSequence, CharSequence...)
      */
     public void writeToFile(List<String> lines, String fileName) {
-
-        String joined = String.join("\n", lines);
+        var content= String.join("\n",lines);
         try {
-            Files.writeString(Path.of(fileName),joined );
+            Files.writeString(Path.of(fileName),content);
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 }
