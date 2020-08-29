@@ -6,7 +6,7 @@ package com.masterdevskills.cha3.ext0;
 public class ThreadSafeCounter {
 	private int count;
 
-	public void increment() {
+	public synchronized void increment() {
 		count = count + 1;
 	}
 

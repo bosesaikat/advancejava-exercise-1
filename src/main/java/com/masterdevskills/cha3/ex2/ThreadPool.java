@@ -1,41 +1,63 @@
 package com.masterdevskills.cha3.ex2;
 
 
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 //TODO: Implement this thread pool using BlockingQueue
 public class ThreadPool {
 
-	public ThreadPool(int poolSize) {
-	}
+  private final BlockingQueue<Runnable> taskList = new LinkedBlockingQueue<>();
+  private final ThreadGroup threadGroup = new ThreadGroup("group 1");
+  private final List<Job> workers;
 
-	private Runnable take() throws InterruptedException {
-		throw new UnsupportedOperationException("not implemented");
-	}
+  public ThreadPool(int poolSize) {
+    workers = IntStream.range(0, poolSize)
+        .mapToObj(value -> new Job(threadGroup, "Worker " + value))
+        .collect(Collectors.toList());
+    workers.forEach(Thread::start);
+  }
 
-	public void submit(Runnable job) {
+  private Runnable take() throws InterruptedException {
+    return taskList.poll();
+  }
 
-	}
+  public void submit(Runnable job) {
+    taskList.add(job);
+  }
 
-	public int getRunQueueLength() {
+  public int getRunQueueLength() {
+    return taskList.size();
+  }
 
-		throw new UnsupportedOperationException("not implemented");
-	}
+  public void shutdown() {
+    threadGroup.interrupt();
+  }
 
-	public void shutdown() {
+  private class Job extends Thread {
 
-	}
+    public Job(ThreadGroup group, String name) {
+      super(group, name);
+    }
 
-	private class Job extends Thread {
-		public Job(ThreadGroup group, String name) {
-			super(group, name);
-		}
-
-		public void run() {
-			//TODO
-			// we run in an infinite loop:
-			// remove the next job from the linked list using take()
-			// we then call the run() method on the job
-		}
-	}
+    public void run() {
+      //TODO
+      // we run in an infinite loop:
+      // remove the next job from the linked list using take()
+      // we then call the run() method on the job
+      while (true) {
+        Runnable task;
+        try {
+          take().run();
+        } catch (InterruptedException e) {
+          currentThread().interrupt();
+        }
+      }
+    }
+  }
 }
 
 
